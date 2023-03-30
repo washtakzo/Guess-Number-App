@@ -11,28 +11,30 @@ const HomeScreen = () => {
       <Title color={Colors.Third}>Guess My Number</Title>
       <View style={styles.chooseNumberContainer}>
         <Text style={styles.chooseNumberTitle}>Enter a Number</Text>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <TextInput
-            style={styles.chooseNumberInput}
-            keyboardType="number-pad"
-            maxLength={2}
-          />
-        </View>
+        <TextInput
+          style={styles.chooseNumberInput}
+          keyboardType="number-pad"
+          maxLength={2}
+        />
         <View style={styles.buttonsContainer}>
-          <MainButton
-            backgroundColor={Colors.Secondary}
-            textColor={Colors.SecondaryText}
-            onPress={() => console.log("test")}
-          >
-            Reset
-          </MainButton>
-          <MainButton
-            backgroundColor={Colors.Secondary}
-            textColor={Colors.SecondaryText}
-            onPress={() => console.log("test")}
-          >
-            Confirm
-          </MainButton>
+          <View style={styles.buttonContainer}>
+            <MainButton
+              backgroundColor={Colors.Secondary}
+              textColor={Colors.SecondaryText}
+              onPress={() => console.log("test")}
+            >
+              Reset
+            </MainButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            <MainButton
+              backgroundColor={Colors.Secondary}
+              textColor={Colors.SecondaryText}
+              onPress={() => console.log("test")}
+            >
+              Confirm
+            </MainButton>
+          </View>
         </View>
       </View>
     </View>
@@ -48,6 +50,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   chooseNumberContainer: {
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: Colors.Primary,
     width: "80%",
     height: 180,
@@ -73,5 +77,8 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: "row",
+  },
+  buttonContainer: {
+    flex: 1,
   },
 });

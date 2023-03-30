@@ -32,13 +32,13 @@ export default MainButton;
 const styles = StyleSheet.create({
   outerContainer: {
     borderRadius: 24,
-    flex: 1,
     marginHorizontal: 4,
     overflow: "hidden",
     elevation: 2,
   },
   title: {
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
     textAlign: "center",
   },
 });
