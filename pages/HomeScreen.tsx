@@ -11,7 +11,7 @@ type Props = {
 const HomeScreen = ({ onValidateUserNumber }: Props) => {
   const [userInput, setUserInput] = useState<string>("");
 
-  const changeTextHandler = (userInput: string) => {
+  const changeInputTextHandler = (userInput: string) => {
     setUserInput(userInput);
   };
 
@@ -21,12 +21,16 @@ const HomeScreen = ({ onValidateUserNumber }: Props) => {
     const userNumber = +userInput;
 
     if (isNaN(userNumber)) {
-      Alert.alert("Error", "Provided input is not a number");
+      Alert.alert("Error", "Provided input is not a number", [
+        { text: "Wakatta", style: "destructive", onPress: resetInput },
+      ]);
       return;
     }
 
     if (userNumber < 1 || userNumber > 99) {
-      Alert.alert("Error", "Please insert a number between 1 and 99");
+      Alert.alert("Error", "Please insert a number between 1 and 99", [
+        { text: "Okay", style: "destructive", onPress: resetInput },
+      ]);
       return;
     }
 
@@ -43,7 +47,7 @@ const HomeScreen = ({ onValidateUserNumber }: Props) => {
           keyboardType="number-pad"
           maxLength={2}
           value={userInput}
-          onChangeText={changeTextHandler}
+          onChangeText={changeInputTextHandler}
         />
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>

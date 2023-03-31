@@ -13,6 +13,14 @@ export default function App() {
     setUserNumber(userNumber);
   };
 
+  let screenToDisplay = (
+    <HomeScreen onValidateUserNumber={validateUserNumberHandler} />
+  );
+
+  if (userNumber) {
+    screenToDisplay = <GameScreen />;
+  }
+
   return (
     <LinearGradient
       style={styles.screenContainer}
@@ -25,10 +33,7 @@ export default function App() {
         source={require("./assets/images/naruto-shippuden.jpg")}
       >
         <StatusBar barStyle={"light-content"} />
-        {!userNumber && (
-          <HomeScreen onValidateUserNumber={validateUserNumberHandler} />
-        )}
-        {userNumber && <GameScreen />}
+        {screenToDisplay}
       </ImageBackground>
     </LinearGradient>
   );
