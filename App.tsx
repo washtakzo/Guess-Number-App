@@ -1,9 +1,18 @@
-import { View, StyleSheet, ImageBackground } from "react-native";
+import { useState } from "react";
+
+import { StyleSheet, ImageBackground, StatusBar } from "react-native";
 import HomeScreen from "./pages/HomeScreen";
+import GameScreen from "./pages/GameScreen";
 import Colors from "./helper/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function App() {
+  const [userNumber, setUserNumber] = useState<number>();
+
+  const validateUserNumberHandler = (userNumber: number) => {
+    setUserNumber(userNumber);
+  };
+
   return (
     <LinearGradient
       style={styles.screenContainer}
@@ -15,7 +24,11 @@ export default function App() {
         imageStyle={{ opacity: 0.2 }}
         source={require("./assets/images/naruto-shippuden.jpg")}
       >
-        <HomeScreen />
+        <StatusBar barStyle={"light-content"} />
+        {!userNumber && (
+          <HomeScreen onValidateUserNumber={validateUserNumberHandler} />
+        )}
+        {userNumber && <GameScreen />}
       </ImageBackground>
     </LinearGradient>
   );
