@@ -1,18 +1,21 @@
 import React from "react";
 import { Text, View, StyleSheet, Pressable } from "react-native";
+import Colors from "../helper/Colors";
 
 type Props = {
   children: string;
-  backgroundColor: string;
-  textColor: string;
+  backgroundColor?: string;
+  textColor?: string;
   onPress: () => void;
+  textStyle?: any;
 };
 
 const MainButton = ({
   children,
   onPress,
-  backgroundColor,
+  backgroundColor = Colors.Secondary,
   textColor,
+  textStyle,
 }: Props) => {
   return (
     <View style={styles.outerContainer}>
@@ -21,7 +24,9 @@ const MainButton = ({
         android_ripple={{ color: "grey" }}
         style={[{ backgroundColor: backgroundColor }]}
       >
-        <Text style={[styles.title, { color: textColor }]}>{children}</Text>
+        <Text style={[styles.title, { color: textColor }, textStyle]}>
+          {children}
+        </Text>
       </Pressable>
     </View>
   );

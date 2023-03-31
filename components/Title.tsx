@@ -4,11 +4,12 @@ import { View, Text, StyleSheet } from "react-native";
 type Props = {
   children: string;
   color?: string;
+  style?: any;
 };
 
-const Title = ({ children, color = "black" }: Props) => {
+const Title = ({ children, color = "black", style }: Props) => {
   return (
-    <View style={[styles.titleContainer, { borderColor: color }]}>
+    <View style={[styles.titleContainer, { borderColor: color }, style]}>
       <Text style={[styles.title, { color: color }]}>{children}</Text>
     </View>
   );

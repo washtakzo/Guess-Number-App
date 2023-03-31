@@ -18,7 +18,7 @@ export default function App() {
   );
 
   if (userNumber) {
-    screenToDisplay = <GameScreen />;
+    screenToDisplay = <GameScreen userNumber={userNumber} />;
   }
 
   return (
