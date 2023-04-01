@@ -3,22 +3,36 @@ import { useState } from "react";
 import { StyleSheet, ImageBackground, StatusBar } from "react-native";
 import HomeScreen from "./pages/HomeScreen";
 import GameScreen from "./pages/GameScreen";
+import GameOverScreen from "./pages/GameOverScreen";
 import Colors from "./helper/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function App() {
   const [userNumber, setUserNumber] = useState<number>();
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [guesses, setGuesses] = useState<number[]>([]);
 
   const validateUserNumberHandler = (userNumber: number) => {
     setUserNumber(userNumber);
+  };
+
+  const finishGameHandler = (guesses: number[]) => {
+    setIsGameOver(true);
+    setGuesses(guesses);
   };
 
   let screenToDisplay = (
     <HomeScreen onValidateUserNumber={validateUserNumberHandler} />
   );
 
-  if (userNumber) {
-    screenToDisplay = <GameScreen userNumber={userNumber} />;
+  if (userNumber && !isGameOver) {
+    screenToDisplay = (
+      <GameScreen userNumber={userNumber} onFinishGame={finishGameHandler} />
+    );
+  }
+
+  if (isGameOver) {
+    screenToDisplay = <GameOverScreen guesses={guesses} />;
   }
 
   return (

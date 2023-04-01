@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import MainButton from "../components/MainButton";
 import Title from "../components/Title";
@@ -8,6 +8,7 @@ import { generateRandomBetween } from "../helper/functions";
 
 type Props = {
   userNumber: number;
+  onFinishGame: (guesses: number[]) => void;
 };
 
 enum Indication {
@@ -18,13 +19,21 @@ enum Indication {
 let minBoudary = 1;
 let maxBoudary = 100;
 
-const GameScreen = ({ userNumber }: Props) => {
+const GameScreen = ({ userNumber, onFinishGame }: Props) => {
   const initialGuess = generateRandomBetween(
     minBoudary,
     maxBoudary,
     userNumber
   );
   const [phoneGuess, setPhoneGuess] = useState<number[]>([initialGuess]);
+
+  useEffect(() => {
+    const currentGuess = phoneGuess.at(-1)!!;
+
+    if (currentGuess === userNumber) {
+      onFinishGame(phoneGuess);
+    }
+  }, [phoneGuess]);
 
   const addGuess = (guessNumber: number) => {
     setPhoneGuess((currentState) => [...currentState, guessNumber]);
@@ -94,6 +103,7 @@ const GameScreen = ({ userNumber }: Props) => {
         <Text>{phoneGuess}</Text>
         {phoneGuess.map((guess, index) => (
           <View
+            key={guess}
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
