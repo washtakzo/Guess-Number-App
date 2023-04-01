@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import Colors from "../helper/Colors";
+import Colors from "../../helper/Colors";
 
 type Props = {
   children: any;

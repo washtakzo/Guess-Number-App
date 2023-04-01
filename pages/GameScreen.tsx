@@ -1,50 +1,58 @@
 import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import MainButton from "../components/MainButton";
 import Title from "../components/Title";
 import Colors from "../helper/Colors";
-import Card from "../UI/Card";
-import { getRandomNumber } from "../helper/functions";
+import Card from "../components/UI/Card";
+import { generateRandomBetween } from "../helper/functions";
 
 type Props = {
   userNumber: number;
 };
 
-type indication = "more" | "less";
+enum Indication {
+  MORE,
+  LESS,
+}
+
+let minBoudary = 1;
+let maxBoudary = 100;
 
 const GameScreen = ({ userNumber }: Props) => {
-  const [phoneGuess, setPhoneGuess] = useState<number[]>([
-    getRandomNumber(1, 99),
-  ]);
+  const initialGuess = generateRandomBetween(
+    minBoudary,
+    maxBoudary,
+    userNumber
+  );
+  const [phoneGuess, setPhoneGuess] = useState<number[]>([initialGuess]);
 
   const addGuess = (guessNumber: number) => {
     setPhoneGuess((currentState) => [...currentState, guessNumber]);
   };
 
-  const guessNumber = (indication: indication) => {
-    const phoneMinimumGuess =
-      phoneGuess.length > 2 ? [...phoneGuess].sort()[0] : 0;
-    const phoneMaximumGuess =
-      phoneGuess.length > 2 ? [...phoneGuess].sort().reverse()[0] : 99;
-    const lastGuess = phoneGuess[phoneGuess.length - 1];
+  const guessLowHigh = (indication: Indication) => {
+    const currentGuess = phoneGuess.at(-1)!!;
 
-    console.log(phoneGuess);
+    const isUserLying =
+      (indication === Indication.LESS && userNumber > currentGuess) ||
+      (indication === Indication.MORE && userNumber < currentGuess);
 
-    if (indication === "less") {
-      return getRandomNumber(1, lastGuess!!);
-    } else if (indication === "more") {
-      return getRandomNumber(lastGuess!!, 99);
+    if (isUserLying) {
+      Alert.alert("Don't lie!", "You know that this is wrong... xD", [
+        { text: "Sorry !", style: "cancel" },
+      ]);
+      return;
     }
 
-    return lastGuess!!;
-  };
+    if (indication === Indication.MORE) {
+      minBoudary = currentGuess + 1;
+    } else if (indication === Indication.LESS) {
+      maxBoudary = currentGuess;
+    }
 
-  const guessHigh = () => {
-    addGuess(guessNumber("more"));
-  };
+    const newGuess = generateRandomBetween(minBoudary, maxBoudary, -1);
 
-  const guessLow = () => {
-    addGuess(guessNumber("less"));
+    addGuess(newGuess);
   };
 
   return (
@@ -64,12 +72,18 @@ const GameScreen = ({ userNumber }: Props) => {
           <Text style={styles.cardTitle}>Higher or lower ?</Text>
           <View style={styles.buttonsContainer}>
             <View style={styles.buttonContainer}>
-              <MainButton textStyle={styles.buttonText} onPress={guessLow}>
+              <MainButton
+                textStyle={styles.buttonText}
+                onPress={() => guessLowHigh(Indication.LESS)}
+              >
                 -
               </MainButton>
             </View>
             <View style={styles.buttonContainer}>
-              <MainButton textStyle={styles.buttonText} onPress={guessHigh}>
+              <MainButton
+                textStyle={styles.buttonText}
+                onPress={guessLowHigh.bind(this, Indication.MORE)}
+              >
                 +
               </MainButton>
             </View>
@@ -78,6 +92,24 @@ const GameScreen = ({ userNumber }: Props) => {
       </View>
       <View style={{ flex: 1, alignItems: "center" }}>
         <Text>{phoneGuess}</Text>
+        {phoneGuess.map((guess, index) => (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: 12,
+              borderWidth: 2,
+              borderRadius: 16,
+              marginVertical: 8,
+              borderColor: Colors.Primary,
+              backgroundColor: Colors.Secondary,
+            }}
+          >
+            <Text># {index + 1}</Text>
+            <Text>{guess}</Text>
+          </View>
+        ))}
       </View>
     </View>
   );
