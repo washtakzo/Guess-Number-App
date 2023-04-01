@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { StyleSheet, ImageBackground, StatusBar } from "react-native";
 import HomeScreen from "./pages/HomeScreen";
@@ -16,9 +16,18 @@ export default function App() {
     setUserNumber(userNumber);
   };
 
-  const finishGameHandler = (guesses: number[]) => {
-    setIsGameOver(true);
-    setGuesses(guesses);
+  const finishGameHandler = useCallback(
+    (guesses: number[]) => {
+      setIsGameOver(true);
+      setGuesses(guesses);
+    },
+    [setIsGameOver, setGuesses, guesses]
+  );
+
+  const restartGameHandler = () => {
+    setGuesses([]);
+    setUserNumber(undefined);
+    setIsGameOver(false);
   };
 
   let screenToDisplay = (
@@ -32,7 +41,9 @@ export default function App() {
   }
 
   if (isGameOver) {
-    screenToDisplay = <GameOverScreen guesses={guesses} />;
+    screenToDisplay = (
+      <GameOverScreen guesses={guesses} onStartNewGame={restartGameHandler} />
+    );
   }
 
   return (

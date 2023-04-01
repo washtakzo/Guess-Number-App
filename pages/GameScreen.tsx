@@ -20,20 +20,18 @@ let minBoudary = 1;
 let maxBoudary = 100;
 
 const GameScreen = ({ userNumber, onFinishGame }: Props) => {
-  const initialGuess = generateRandomBetween(
-    minBoudary,
-    maxBoudary,
-    userNumber
-  );
+  const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [phoneGuess, setPhoneGuess] = useState<number[]>([initialGuess]);
 
   useEffect(() => {
     const currentGuess = phoneGuess.at(-1)!!;
 
     if (currentGuess === userNumber) {
+      minBoudary = 1;
+      maxBoudary = 100;
       onFinishGame(phoneGuess);
     }
-  }, [phoneGuess]);
+  }, [phoneGuess, userNumber, onFinishGame]);
 
   const addGuess = (guessNumber: number) => {
     setPhoneGuess((currentState) => [...currentState, guessNumber]);
@@ -41,6 +39,8 @@ const GameScreen = ({ userNumber, onFinishGame }: Props) => {
 
   const guessLowHigh = (indication: Indication) => {
     const currentGuess = phoneGuess.at(-1)!!;
+
+    if (currentGuess === userNumber) return;
 
     const isUserLying =
       (indication === Indication.LESS && userNumber > currentGuess) ||

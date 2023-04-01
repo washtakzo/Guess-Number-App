@@ -6,9 +6,10 @@ import Colors from "../helper/Colors";
 
 type Props = {
   guesses: number[];
+  onStartNewGame: () => void;
 };
 
-const GameOverScreen = ({ guesses }: Props) => {
+const GameOverScreen = ({ guesses, onStartNewGame }: Props) => {
   const triesToGuess = guesses.length;
   const guessedNumber = guesses.at(-1);
 
@@ -25,9 +26,7 @@ const GameOverScreen = ({ guesses }: Props) => {
         rounds to guess the number{" "}
         <Text style={[styles.text, styles.textNumbers]}>{guessedNumber}</Text>.
       </Text>
-      <MainButton onPress={() => console.log("test")}>
-        Start New Game
-      </MainButton>
+      <MainButton onPress={onStartNewGame}>Start New Game</MainButton>
     </View>
   );
 };
