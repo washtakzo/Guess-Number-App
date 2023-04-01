@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
 import Title from "../components/Title";
 import MainButton from "../components/MainButton";
+import Colors from "../helper/Colors";
 
 type Props = {
   guesses: number[];
@@ -13,14 +14,16 @@ const GameOverScreen = ({ guesses }: Props) => {
 
   return (
     <View style={styles.screenContainer}>
-      <Title>Game Over</Title>
+      <Title style={styles.title}>Game Over</Title>
       <Image
         style={styles.image}
-        source={require("../assets/images/naruto-shippuden.jpg")}
+        source={require("../assets/images/jiraya.jpg")}
       />
-      <Text>
-        Your phone needed {triesToGuess} rounds to guess the number{" "}
-        {guessedNumber}.
+      <Text style={styles.text}>
+        Your phone needed{" "}
+        <Text style={[styles.text, styles.textNumbers]}>{triesToGuess}</Text>{" "}
+        rounds to guess the number{" "}
+        <Text style={[styles.text, styles.textNumbers]}>{guessedNumber}</Text>.
       </Text>
       <MainButton onPress={() => console.log("test")}>
         Start New Game
@@ -38,8 +41,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 24,
   },
-  image: {
-    height: "50%",
-    width: "50%",
+  title: {
+    width: "80%",
   },
+  image: {
+    height: 300,
+    width: 300,
+    borderWidth: 2,
+    borderRadius: 200,
+    borderColor: Colors.SecondaryText,
+  },
+  text: {
+    fontSize: 22,
+    textAlign: "center",
+  },
+  textNumbers: {
+    fontWeight: "bold",
+    color: Colors.Secondary,
+  },
+  button: {},
 });
