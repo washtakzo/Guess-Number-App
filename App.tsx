@@ -6,11 +6,17 @@ import GameScreen from "./pages/GameScreen";
 import GameOverScreen from "./pages/GameOverScreen";
 import Colors from "./helper/Colors";
 import { LinearGradient } from "expo-linear-gradient";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
 export default function App() {
   const [userNumber, setUserNumber] = useState<number>();
   const [isGameOver, setIsGameOver] = useState(false);
   const [guesses, setGuesses] = useState<number[]>([]);
+
+  const [isFontLoaded] = useFonts({
+    french: require("./assets/fonts/FRSCRIPT.ttf"),
+  });
 
   const validateUserNumberHandler = (userNumber: number) => {
     setUserNumber(userNumber);
@@ -46,6 +52,9 @@ export default function App() {
     );
   }
 
+  if (!isFontLoaded) {
+    return <AppLoading />;
+  }
   return (
     <LinearGradient
       style={styles.screenContainer}
