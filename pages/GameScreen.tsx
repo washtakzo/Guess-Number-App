@@ -1,5 +1,12 @@
-import { useState } from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import MainButton from "../components/MainButton";
 import Title from "../components/Title";
 import Colors from "../helper/Colors";
@@ -8,6 +15,7 @@ import { generateRandomBetween } from "../helper/functions";
 
 type Props = {
   userNumber: number;
+  onFinishGame: (guesses: number[]) => void;
 };
 
 enum Indication {
@@ -18,13 +26,19 @@ enum Indication {
 let minBoudary = 1;
 let maxBoudary = 100;
 
-const GameScreen = ({ userNumber }: Props) => {
-  const initialGuess = generateRandomBetween(
-    minBoudary,
-    maxBoudary,
-    userNumber
-  );
+const GameScreen = ({ userNumber, onFinishGame }: Props) => {
+  const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [phoneGuess, setPhoneGuess] = useState<number[]>([initialGuess]);
+
+  useEffect(() => {
+    const currentGuess = phoneGuess.at(-1)!!;
+
+    if (currentGuess === userNumber) {
+      minBoudary = 1;
+      maxBoudary = 100;
+      onFinishGame(phoneGuess);
+    }
+  }, [phoneGuess, userNumber, onFinishGame]);
 
   const addGuess = (guessNumber: number) => {
     setPhoneGuess((currentState) => [...currentState, guessNumber]);
@@ -32,6 +46,8 @@ const GameScreen = ({ userNumber }: Props) => {
 
   const guessLowHigh = (indication: Indication) => {
     const currentGuess = phoneGuess.at(-1)!!;
+
+    if (currentGuess === userNumber) return;
 
     const isUserLying =
       (indication === Indication.LESS && userNumber > currentGuess) ||
@@ -91,25 +107,17 @@ const GameScreen = ({ userNumber }: Props) => {
         </Card>
       </View>
       <View style={{ flex: 1, alignItems: "center" }}>
-        <Text>{phoneGuess}</Text>
-        {phoneGuess.map((guess, index) => (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
-              padding: 12,
-              borderWidth: 2,
-              borderRadius: 16,
-              marginVertical: 8,
-              borderColor: Colors.Primary,
-              backgroundColor: Colors.Secondary,
-            }}
-          >
-            <Text># {index + 1}</Text>
-            <Text>{guess}</Text>
-          </View>
-        ))}
+        <FlatList
+          style={{ flex: 1, width: "100%" }}
+          data={phoneGuess}
+          keyExtractor={(item) => item.toString()}
+          renderItem={({ item: guess, index }) => (
+            <View style={styles.flatListItem}>
+              <Text># {index + 1}</Text>
+              <Text>{guess}</Text>
+            </View>
+          )}
+        />
       </View>
     </View>
   );
@@ -151,5 +159,16 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
+  },
+  flatListItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    padding: 12,
+    borderWidth: 2,
+    borderRadius: 16,
+    marginVertical: 8,
+    borderColor: Colors.Primary,
+    backgroundColor: Colors.Secondary,
   },
 });
