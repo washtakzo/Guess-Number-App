@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import MainButton from "../components/MainButton";
 import Title from "../components/Title";
 import Colors from "../helper/Colors";
@@ -100,26 +107,17 @@ const GameScreen = ({ userNumber, onFinishGame }: Props) => {
         </Card>
       </View>
       <View style={{ flex: 1, alignItems: "center" }}>
-        <Text>{phoneGuess}</Text>
-        {phoneGuess.map((guess, index) => (
-          <View
-            key={guess}
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
-              padding: 12,
-              borderWidth: 2,
-              borderRadius: 16,
-              marginVertical: 8,
-              borderColor: Colors.Primary,
-              backgroundColor: Colors.Secondary,
-            }}
-          >
-            <Text># {index + 1}</Text>
-            <Text>{guess}</Text>
-          </View>
-        ))}
+        <FlatList
+          style={{ flex: 1, width: "100%" }}
+          data={phoneGuess}
+          keyExtractor={(item) => item.toString()}
+          renderItem={({ item: guess, index }) => (
+            <View style={styles.flatListItem}>
+              <Text># {index + 1}</Text>
+              <Text>{guess}</Text>
+            </View>
+          )}
+        />
       </View>
     </View>
   );
@@ -161,5 +159,16 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
+  },
+  flatListItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    padding: 12,
+    borderWidth: 2,
+    borderRadius: 16,
+    marginVertical: 8,
+    borderColor: Colors.Primary,
+    backgroundColor: Colors.Secondary,
   },
 });
