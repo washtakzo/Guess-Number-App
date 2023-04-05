@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Alert,
+  Dimensions,
+} from "react-native";
 import MainButton from "../components/MainButton";
 import Title from "../components/Title";
 import Colors from "../helper/Colors";

@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
 import React from "react";
 import Title from "../components/Title";
 import MainButton from "../components/MainButton";
@@ -33,6 +33,8 @@ const GameOverScreen = ({ guesses, onStartNewGame }: Props) => {
 
 export default GameOverScreen;
 
+const deviceWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
@@ -44,10 +46,10 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   image: {
-    height: 300,
-    width: 300,
+    height: deviceWidth / 1.4,
+    width: deviceWidth / 1.4,
     borderWidth: 2,
-    borderRadius: 200,
+    borderRadius: deviceWidth / 2.8,
     borderColor: Colors.SecondaryText,
   },
   text: {
