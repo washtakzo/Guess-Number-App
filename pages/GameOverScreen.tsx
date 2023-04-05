@@ -1,4 +1,11 @@
-import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  useWindowDimensions,
+} from "react-native";
 import React from "react";
 import Title from "../components/Title";
 import MainButton from "../components/MainButton";
@@ -13,11 +20,19 @@ const GameOverScreen = ({ guesses, onStartNewGame }: Props) => {
   const triesToGuess = guesses.length;
   const guessedNumber = guesses.at(-1);
 
+  const { width, height } = useWindowDimensions();
+  const isLandScapeMode = width > height;
+
+  const imageStyle = {
+    width: isLandScapeMode ? width / 6 : width / 1.4,
+    height: isLandScapeMode ? width / 6 : width / 1.4,
+    borderRadius: isLandScapeMode ? width / 12 : width / 2.8,
+  };
   return (
     <View style={styles.screenContainer}>
       <Title style={styles.title}>Game Over</Title>
       <Image
-        style={styles.image}
+        style={[styles.image, imageStyle]}
         source={require("../assets/images/jiraya.jpg")}
       />
       <Text style={styles.text}>
@@ -46,10 +61,10 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   image: {
-    height: deviceWidth / 1.4,
-    width: deviceWidth / 1.4,
+    // height: deviceWidth / 1.4,
+    // width: deviceWidth / 1.4,
     borderWidth: 2,
-    borderRadius: deviceWidth / 2.8,
+    // borderRadius: deviceWidth / 2.8,
     borderColor: Colors.SecondaryText,
   },
   text: {
