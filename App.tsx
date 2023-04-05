@@ -56,20 +56,22 @@ export default function App() {
     return <AppLoading />;
   }
   return (
-    <LinearGradient
-      style={styles.screenContainer}
-      colors={[Colors.Background, Colors.Third]}
-    >
-      <ImageBackground
-        style={{ flex: 1 }}
-        resizeMode="cover"
-        imageStyle={{ opacity: 0.2 }}
-        source={require("./assets/images/naruto-shippuden.jpg")}
+    <>
+      <StatusBar barStyle={"light-content"} />
+      <LinearGradient
+        style={styles.screenContainer}
+        colors={[Colors.Background, Colors.Third]}
       >
-        <StatusBar barStyle={"light-content"} />
-        {screenToDisplay}
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          style={{ flex: 1 }}
+          resizeMode="cover"
+          imageStyle={{ opacity: 0.2 }}
+          source={require("./assets/images/naruto-shippuden.jpg")}
+        >
+          {screenToDisplay}
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
