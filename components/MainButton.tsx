@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Text, View, StyleSheet, Pressable, Dimensions } from "react-native";
 import Colors from "../helper/Colors";
 
 type Props = {
@@ -34,6 +34,8 @@ const MainButton = ({
 
 export default MainButton;
 
+const width = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   outerContainer: {
     borderRadius: 24,
@@ -42,8 +44,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   title: {
-    paddingVertical: 12,
-    paddingHorizontal: 18,
+    paddingVertical: width < 380 ? 6 : 12,
+    paddingHorizontal: width < 380 ? 1 : 18,
     textAlign: "center",
   },
 });

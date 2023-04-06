@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Alert,
+  Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import MainButton from "../components/MainButton";
 import Title from "../components/Title";
 import Colors from "../helper/Colors";
@@ -38,45 +47,50 @@ const HomeScreen = ({ onValidateUserNumber }: Props) => {
   };
 
   return (
-    <View style={styles.screenContainer}>
-      <Title color={Colors.Third}>Guess My Number</Title>
-      <View style={styles.chooseNumberContainer}>
-        <Text style={styles.chooseNumberTitle}>Enter a Number</Text>
-        <TextInput
-          style={styles.chooseNumberInput}
-          keyboardType="number-pad"
-          maxLength={2}
-          value={userInput}
-          onChangeText={changeInputTextHandler}
-        />
-        <View style={styles.buttonsContainer}>
-          <View style={styles.buttonContainer}>
-            <MainButton
-              backgroundColor={Colors.Secondary}
-              textColor={Colors.SecondaryText}
-              onPress={resetInput}
-            >
-              Reset
-            </MainButton>
-          </View>
-          <View style={styles.buttonContainer}>
-            <MainButton
-              backgroundColor={Colors.Secondary}
-              textColor={Colors.SecondaryText}
-              onPress={confirmInput}
-            >
-              Confirm
-            </MainButton>
+    <ScrollView style={styles.screen}>
+      <KeyboardAvoidingView style={styles.screen} behavior="position">
+        <View style={styles.screenContainer}>
+          <Title color={Colors.Third}>Guess My Number</Title>
+          <View style={styles.chooseNumberContainer}>
+            <Text style={styles.chooseNumberTitle}>Enter a Number</Text>
+            <TextInput
+              style={styles.chooseNumberInput}
+              keyboardType="number-pad"
+              maxLength={2}
+              value={userInput}
+              onChangeText={changeInputTextHandler}
+            />
+            <View style={styles.buttonsContainer}>
+              <View style={styles.buttonContainer}>
+                <MainButton
+                  backgroundColor={Colors.Secondary}
+                  textColor={Colors.SecondaryText}
+                  onPress={resetInput}
+                >
+                  Reset
+                </MainButton>
+              </View>
+              <View style={styles.buttonContainer}>
+                <MainButton
+                  backgroundColor={Colors.Secondary}
+                  textColor={Colors.SecondaryText}
+                  onPress={confirmInput}
+                >
+                  Confirm
+                </MainButton>
+              </View>
+            </View>
           </View>
         </View>
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  screen: { flex: 1 },
   screenContainer: {
     flex: 1,
     alignItems: "center",
